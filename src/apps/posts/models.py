@@ -14,3 +14,4 @@ class Post(TimeStampedModel):
 class Comment(TimeStampedModel):
     message = models.CharField(max_length=250)
     commented_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
