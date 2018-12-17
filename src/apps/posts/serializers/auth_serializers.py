@@ -10,3 +10,13 @@ class LoginSerializer(serializers.ModelSerializer):
 
         model = User
         fields = ('username', 'password')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+    username = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+
+        model = User
+        fields = "__all__"

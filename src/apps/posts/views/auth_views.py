@@ -1,9 +1,11 @@
-from ..serializers.auth_serializers import LoginSerializer
+from rest_framework.decorators import action
+
+from ..serializers.auth_serializers import LoginSerializer, UserSerializer
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
@@ -43,3 +45,13 @@ class LoginAPIView(APIView):
 
         except User.DoesNotExist as e:
             return Response(e, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    @action(methods=('get',), detail=False, url_path='get-profile', url_name='get_profile')
+    def get_profile(self, _):
+        user = self.request.user
+        return Response(UserSerializer(user, many=False).data, status=status.HTTP_200_OK)

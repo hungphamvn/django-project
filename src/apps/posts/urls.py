@@ -1,9 +1,10 @@
 from django.conf.urls import url, include
-from .views.auth_views import LoginAPIView
+from .views.auth_views import LoginAPIView, UserViewSet
 from rest_framework.routers import DefaultRouter
 from apps.posts.views.post_views import *
 
 router = DefaultRouter()
+router.register('user', UserViewSet, basename='user')
 router.register('post', PostViewSet, basename='post')
 router.register('comment', CommentViewSet, basename='comment')
 
